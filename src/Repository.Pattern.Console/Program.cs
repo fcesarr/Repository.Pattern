@@ -13,17 +13,20 @@ using Serilog;
 
 var builder = Host.CreateApplicationBuilder(args);
 
-builder.Services.AddSerilog((serviceProvider, loggerConfiguration) =>
+builder.Services.AddSerilog((serviceProvider,
+    loggerConfiguration) =>
 {
     var assembly = Assembly.GetExecutingAssembly();
     var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
     var version = fvi.FileVersion;
 
-    loggerConfiguration.ReadFrom.Configuration(builder.Configuration)
+    loggerConfiguration
+        .ReadFrom.Configuration(builder.Configuration)
         .Enrich.WithProperty("Version", version);
 });
 
-builder.Services.AddDbContext<RepositoryContext>((service, options) =>
+builder.Services.AddDbContext<RepositoryContext>((service,
+    options) =>
 {
     var configuration = service.GetRequiredService<IConfiguration>();
 

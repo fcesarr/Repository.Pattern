@@ -17,7 +17,8 @@ public sealed class EntityFrameworkRepository<TEntity> : IRepository<TEntity> wh
         _dbContext = dbContext;
     }
 
-    public async Task<TEntity> CreateAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public async Task<TEntity> CreateAsync(TEntity entity,
+        CancellationToken cancellationToken = default)
     {
         var dbSet = _dbContext.Set<TEntity>();
 
@@ -28,7 +29,8 @@ public sealed class EntityFrameworkRepository<TEntity> : IRepository<TEntity> wh
         return entityEntry.Entity;
     }
 
-    public async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(TEntity entity,
+        CancellationToken cancellationToken = default)
     {
         await Task.Run(async () =>
         {
@@ -46,8 +48,7 @@ public sealed class EntityFrameworkRepository<TEntity> : IRepository<TEntity> wh
         IEnumerable<Expression<Func<TEntity, dynamic?>>>? includes = default,
         CancellationToken cancellationToken = default)
     {
-        var dbSet = _dbContext.Set<TEntity>()
-            .Where(predicate);
+        var dbSet = _dbContext.Set<TEntity>().Where(predicate);
 
         if (orderBy is not null)
         {
@@ -56,12 +57,11 @@ public sealed class EntityFrameworkRepository<TEntity> : IRepository<TEntity> wh
 
         if (includes is not null)
         {
-            dbSet = includes
-                .Aggregate(dbSet, (current, include) => current.Include(include));
+            dbSet = includes.Aggregate(dbSet, (current,
+                include) => current.Include(include));
         }
 
-        return await dbSet
-            .ToListAsync(cancellationToken);
+        return await dbSet.ToListAsync(cancellationToken);
     }
 
     public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate,
@@ -70,8 +70,7 @@ public sealed class EntityFrameworkRepository<TEntity> : IRepository<TEntity> wh
         IEnumerable<Expression<Func<TEntity, dynamic?>>>? includes = default,
         CancellationToken cancellationToken = default)
     {
-        var dbSet = _dbContext.Set<TEntity>()
-            .Where(predicate);
+        var dbSet = _dbContext.Set<TEntity>().Where(predicate);
 
         if (orderBy is not null)
         {
@@ -80,15 +79,15 @@ public sealed class EntityFrameworkRepository<TEntity> : IRepository<TEntity> wh
 
         if (includes is not null)
         {
-            dbSet = includes
-                .Aggregate(dbSet, (current, include) => current.Include(include));
+            dbSet = includes.Aggregate(dbSet, (current,
+                include) => current.Include(include));
         }
 
-        return await dbSet
-            .FirstOrDefaultAsync(cancellationToken);
+        return await dbSet.FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public async Task<TEntity> UpdateAsync(TEntity entity,
+        CancellationToken cancellationToken = default)
     {
         return await Task.Run(async () =>
         {
@@ -107,9 +106,7 @@ public sealed class EntityFrameworkRepository<TEntity> : IRepository<TEntity> wh
     {
         var dbSet = _dbContext.Set<TEntity>();
 
-        var entities = await dbSet
-            .Where(predicate)
-            .ToListAsync(cancellationToken);
+        var entities = await dbSet.Where(predicate).ToListAsync(cancellationToken);
 
         await Task.Run(() => dbSet.RemoveRange(entities), cancellationToken);
 

@@ -380,3 +380,8 @@ dotnet_naming_style.s_camelcase.required_suffix =
 dotnet_naming_style.s_camelcase.word_separator = 
 dotnet_naming_style.s_camelcase.capitalization = camel_case
 
+resharper_wrap_parameters_style = chop_always
+resharper_wrap_before_comma = false
+resharper_place_abstract_accessorholder_on_single_line = true
+resharper_place_simple_blocks_on_single_line = false
+# resharper_place_simple_declaration_blocks_on_single_line = true
