@@ -1,0 +1,48 @@
+services:
+  database-postgres:
+    image: postgres:14.9-alpine3.18
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1024M
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+    container_name: database-postgres
+    environment:
+      POSTGRES_DB: "rent-vehicles"
+      POSTGRES_PASSWORD: "postgres"
+    ports:
+      - "5432:5432"
+    volumes:
+      - database-postgres-volume:/var/lib/postgresql/data
+  
+  database-mongo:
+    image: mongo:5.0.27
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1024M
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+    container_name: database-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - database-mongo-volume:/data/db
+      - ./config/init.js:/docker-entrypoint-initdb.d/init.js:ro
+
+networks:
+  default:
+    driver: bridge
+    name: repository-pattern-sln
+
+volumes:
+  database-postgres-volume:
+    name: database-postgres-volume
+  
+  database-mongo-volume:
+    name: database-mongo-volume
