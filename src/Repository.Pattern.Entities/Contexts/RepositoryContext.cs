@@ -8,14 +8,15 @@ public class RepositoryContext : DbContext
     {
     }
 
-    public required DbSet<Car> Cars { get; set; }
+    public required DbSet<Car> Cars
+    {
+        get;
+        set;
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Car>()
-            .HasData(new Car
-            {
-                Name = "Xpto"
-            });
+            .HasData(new Car { Name = "Xpto" });
     }
 }

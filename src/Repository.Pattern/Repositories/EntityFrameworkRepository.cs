@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+
 using Microsoft.EntityFrameworkCore;
 
 using Repository.Pattern.Entities;
@@ -9,7 +10,7 @@ namespace Repository.Pattern.Repositories;
 
 public sealed class EntityFrameworkRepository<TEntity> : IRepository<TEntity> where TEntity : Entity
 {
-    private RepositoryContext _dbContext;
+    private readonly RepositoryContext _dbContext;
 
     public EntityFrameworkRepository(RepositoryContext dbContext)
     {
@@ -29,7 +30,8 @@ public sealed class EntityFrameworkRepository<TEntity> : IRepository<TEntity> wh
 
     public async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
-        await Task.Run(async () => {
+        await Task.Run(async () =>
+        {
             var dbSet = _dbContext.Set<TEntity>();
 
             dbSet.Remove(entity);
@@ -88,7 +90,8 @@ public sealed class EntityFrameworkRepository<TEntity> : IRepository<TEntity> wh
 
     public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
-        return await Task.Run(async () => {
+        return await Task.Run(async () =>
+        {
             var dbSet = _dbContext.Set<TEntity>();
 
             var entityEntry = dbSet.Update(entity);
