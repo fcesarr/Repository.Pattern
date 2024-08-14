@@ -16,6 +16,8 @@ public class RepositoryContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<Car>()
             .HasData(new Car { Name = "Xpto" });
     }
